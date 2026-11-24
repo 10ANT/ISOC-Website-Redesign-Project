@@ -1,0 +1,282 @@
+:root {
+  --truehelp-text: #AAB6C7;
+  --truehelp-text-rgb: 170, 182, 199;
+  --truehelp-text2: #A8B1BD;
+  --truehelp-text2-rgb: 168, 177, 189;
+  --truehelp-deep-lavender: #4F76AD;
+  --truehelp-deep-lavender-rgb: 79, 118, 173;
+  --truehelp-black: #FFFFFF;
+  --truehelp-black-rgb: 255, 255, 255;
+  --truehelp-black7: #2E3948;
+  --truehelp-black7-rgb: 46, 57, 72;
+  --truehelp-black8: #232830;
+  --truehelp-black8-rgb: 35, 40, 48;
+  --truehelp-black9: #050E1A;
+  --truehelp-black9-rgb: 5, 14, 26;
+  --truehelp-black10: #040D19;
+  --truehelp-black10-rgb: 4, 13, 25;
+  --truehelp-black11: #121C2A;
+  --truehelp-black11-rgb: 18, 28, 42;
+  --truehelp-black12: #060A10;
+  --truehelp-black12-rgb: 6, 10, 16;
+  --truehelp-black13: #0D121A;
+  --truehelp-black13-rgb: 13, 18, 26;
+  --truehelp-black14: #0D1D34;
+  --truehelp-black14-rgb: 13, 29, 52;
+  --truehelp-black15: #0D1E35;
+  --truehelp-black15-rgb: 13, 30, 53;
+  --truehelp-black16: #040D1A;
+  --truehelp-black16-rgb: 4, 13, 26;
+  --truehelp-black17: #040D1A;
+  --truehelp-black17-rgb: 4, 13, 26;
+  --truehelp-black18: #030B15;
+  --truehelp-black18-rgb: 3, 11, 21;
+  --truehelp-black19: #061427;
+  --truehelp-black19-rgb: 6, 20, 39;
+  --truehelp-black20: #0D1725;
+  --truehelp-black20-rgb: 13, 23, 37;
+  --truehelp-black21: #364150;
+  --truehelp-black21-rgb: 54, 65, 80;
+  --truehelp-black22: #151E2B;
+  --truehelp-black22-rgb: 21, 30, 43;
+  --truehelp-black23: #121C2B;
+  --truehelp-black23-rgb: 18, 28, 43;
+  --truehelp-black24: #1F2D40;
+  --truehelp-black24-rgb: 31, 45, 64;
+}
+
+.topbar,
+.main-header--two .main-header__link::after {
+  background-color: var(--truehelp-black7);
+}
+
+.main-header--two,
+.main-menu .main-menu__list li ul,
+.home-showcase__inner,
+.home-showcase .demo-one__card {
+  background-color: var(--truehelp-black8);
+}
+
+.support-categories--home2,
+.about-two,
+.main-footer {
+  background-color: var(--truehelp-black10);
+}
+
+.about-two__inner__item {
+  background-color: var(--truehelp-black23);
+}
+
+body,
+.donate-one {
+  background-color: var(--truehelp-black12);
+}
+
+.main-slider-two__tagline::before {
+  background-color: var(--truehelp-black21);
+}
+
+.donation-card {
+  background-color: var(--truehelp-black13);
+}
+
+.donation-card--two .progress-box,
+.testimonials-two__carousel {
+  background-color: var(--truehelp-black20);
+}
+
+.donation-card--two .progress-box__bar {
+  background-color: rgba(var(--truehelp-black-rgb), 0.7);
+}
+
+.donation-card__list::before,
+.donation-card--two .donation-card__amount::before,
+.donation-card--two .donation-card__amount::after {
+  background-color: var(--truehelp-text);
+}
+
+.scroll-top,
+.main-footer__social a:hover {
+  background-color: var(--truehelp-base);
+}
+
+.supporters-acquired__inner,
+.poverty-info__inner {
+  background-color: var(--truehelp-deep-lavender);
+}
+
+.supporters-acquired__button .truehelp-btn,
+.support-one__bottom .truehelp-btn,
+.poverty-info .truehelp-btn {
+  background-color: var(--truehelp-black);
+}
+
+.truehelp-owl__carousel--basic-nav.owl-carousel .owl-dots .owl-dot:hover,
+.truehelp-owl__carousel--basic-nav.owl-carousel .owl-dots .owl-dot.active {
+  background-color: var(--truehelp-primary);
+}
+
+.main-slider-two__carousel.owl-carousel .owl-dots .owl-dot:hover,
+.main-slider-two__carousel.owl-carousel .owl-dots .owl-dot.active {
+  background-color: var(--truehelp-white);
+}
+
+.support-one__inner {
+  background-color: var(--truehelp-black15);
+}
+
+.testimonials-two,
+.poverty-info--one::before {
+  background-color: var(--truehelp-black16);
+}
+
+.testimonials-two__item .truehelp-ratings,
+.testimonials-two__item__icon__inner {
+  background-color: var(--truehelp-black24);
+}
+
+.blog-card--two {
+  background-color: var(--truehelp-black22);
+}
+
+.main-footer__bottom__inner {
+  background-color: var(--truehelp-black5);
+}
+
+.volunteer-card__info {
+  background: var(--truehelp-black8);
+}
+
+.topbar__info::after {
+  background: linear-gradient(270deg, #82ADEA 4.55%, rgba(255, 255, 255, 0) 100%);
+}
+
+.main-slider-two__bg__shape-1 {
+  background: radial-gradient(50% 50% at 50% 50%, #060E19 0%, rgba(50, 73, 106, 0) 100%);
+}
+
+.main-slider-two__bg__shape-2 {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(225, 254, 110, 0.19) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.donations-two__bg::after {
+  background: linear-gradient(270deg, #051020 0%, #1F0808 46%, #061428 100%);
+}
+
+.main-header--two .main-header__link::after,
+.supporters-acquired__inner {
+  border: 0;
+}
+
+.main-slider-two__carousel.owl-carousel .owl-nav button {
+  border-color: var(--truehelp-black21);
+}
+
+.donate-one__card__serial,
+.support-one__inner {
+  border-color: var(--truehelp-black);
+}
+
+.donation-card--two .progress-box {
+  border-color: var(--truehelp-text);
+}
+
+.donations-two .sec-title__top {
+  border-color: var(--truehelp-gray6);
+}
+
+.truehelp-owl__carousel--basic-nav.owl-carousel .owl-dots .owl-dot {
+  border-color: var(--truehelp-primary);
+}
+
+.main-slider-two__carousel.owl-carousel .owl-dots .owl-dot {
+  border-color: var(--truehelp-white);
+}
+
+.main-footer__social a {
+  border-color: var(--truehelp-base);
+}
+
+.sec-title__tagline,
+.donation-card--two .progress-box__number,
+.supporters-acquired__title,
+.supporters-acquired__text,
+.blog-card__meta li,
+.footer-widget__contact__link,
+.main-footer__back-to-top {
+  color: var(--truehelp-black);
+}
+
+.donation-card__list li,
+.testimonials-two__item__designation {
+  color: var(--truehelp-text);
+}
+
+.footer-widget__links--about li,
+.footer-widget__links li,
+.footer-widget__newsletter-text,
+.main-footer__copyright {
+  color: var(--truehelp-text2);
+}
+
+.supporters-acquired__button .truehelp-btn,
+.poverty-info .truehelp-btn {
+  color: var(--truehelp-black7);
+}
+
+.supporters-acquired__button .truehelp-btn:hover,
+.poverty-info .truehelp-btn:hover {
+  color: var(--truehelp-black7);
+}
+
+.mobile-nav__content .main-menu__list li a button.expanded,
+.truehelp-owl__carousel--basic-nav.owl-carousel .owl-nav button,
+.truehelp-btn:hover,
+.demo-one__title,
+.main-slider-two__tagline,
+.main-slider-two__button .truehelp-btn,
+.main-slider-two__carousel.owl-carousel .owl-nav button:hover,
+.support-education__amount,
+.support-education__icon,
+.weekly-raised__amount,
+.support-one__bottom .truehelp-btn,
+.volunteer-card .social-links a,
+.blog-card--two .blog-card__date,
+.blog-card--two .blog-card__category,
+.footer-widget__btn,
+.footer-widget__contact li:hover .footer-widget__contact__icon,
+.footer-widget__newsletter input[type=email]:focus,
+.footer-widget__newsletter button[type=submit]:hover {
+  color: var(--truehelp-black21);
+}
+
+.main-footer__back-to-top:hover {
+  color: var(--truehelp-black);
+}
+
+.footer-widget__newsletter input[type=email] {
+  color: rgba(var(--truehelp-black21-rgb), 0.6);
+}
+
+.home-showcase .demo-one__title,
+.main-slider-two__button .truehelp-btn:hover,
+.footer-widget__btn:hover {
+  color: var(--truehelp-black);
+}
+
+.home-showcase .demo-one__title:hover,
+.slider-social a,
+.main-footer__social a {
+  color: var(--truehelp-base);
+}
+
+.topbar__info li a:hover,
+.topbar__pages li a:hover,
+.topbar__contact li a:hover,
+.main-header__user:hover,
+.main-header__cart:hover,
+.main-header__search:hover,
+.slider-social a:hover {
+  color: var(--truehelp-primary);
+}
+/*# sourceMappingURL=truehelp-dark.css.map */
