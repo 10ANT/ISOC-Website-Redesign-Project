@@ -10,11 +10,13 @@
         ['fa-globe', 'Internet governance', 'Take part in local, regional and global Internet governance processes.'],
     ];
     $faqs = [
-        ['Who can join ISOC Jamaica?', 'Anyone who supports an open, globally connected, secure and trustworthy Internet: students, professionals, academics, civil society, government and business.'],
-        ['Does membership cost anything?', 'No. Membership of ISOC Jamaica is free.'],
-        ['How long does approval take?', 'A Chapter administrator reviews new applications, usually within a few days. You can sign in to the member portal straight away and will get full access once approved.'],
-        ['What do members get?', 'Members-only announcements and resources, invitations to working groups, and early notice of events, training and fellowship opportunities.'],
+        ['Who can join ISOC Jamaica?', 'Anyone who supports an open, globally connected, secure and trustworthy Internet: students, professionals, academics, civil society, government and business. You do not need to live in Jamaica to join the Chapter.'],
+        ['Does membership cost anything?', 'No. Membership is free.'],
+        ['How do I join?', 'Create a free account with the Internet Society, then choose the Jamaica Chapter. Chapter leaders approve new members through the Internet Society, usually within a few days.'],
+        ['Why do I join through the Internet Society?', 'The Internet Society keeps every chapter\'s member records in one secure place, so your details are protected and you only need one account.'],
+        ['What do members get?', 'Invitations to working groups, and early notice of events, training and fellowship opportunities.'],
     ];
+    $joinUrl = $settings['isoc_global_url'] ?? 'https://www.internetsociety.org/become-a-member/';
 @endphp
 
 @section('content')
@@ -66,26 +68,15 @@
                             <span class="get-involved__card__icon"><i class="fa-solid fa-id-card"></i></span>
                             <p class="get-involved__card__border-text get-involved__card__border-text--1">Free membership</p>
                             <p class="get-involved__card__border-text get-involved__card__border-text--2">Takes two minutes</p>
-                            @auth
-                                <h3 class="get-involved__card__title"><a href="{{ route('portal.dashboard') }}">You're signed in</a></h3>
-                                <p class="get-involved__card__text">Visit the member portal to see your membership status and member resources.</p>
-                            @else
-                                <h3 class="get-involved__card__title"><a href="{{ route('register') }}">Ready to join?</a></h3>
-                                <p class="get-involved__card__text">Create your account and a Chapter administrator will approve your membership.</p>
-                            @endauth
+                            <h3 class="get-involved__card__title"><a href="{{ $joinUrl }}" target="_blank" rel="noopener">Ready to join?</a></h3>
+                            <p class="get-involved__card__text">1. Create a free Internet Society account. 2. Choose the Jamaica Chapter. 3. A Chapter leader approves you.</p>
                         </div>
                         <div class="get-involved__card__button">
-                            @auth
-                                <a href="{{ route('portal.dashboard') }}" class="truehelp-btn truehelp-btn--primary"><span>Member Portal</span></a>
-                            @else
-                                <a href="{{ route('register') }}" class="truehelp-btn truehelp-btn--primary"><span>Apply Now</span></a>
-                            @endauth
+                            <a href="{{ $joinUrl }}" target="_blank" rel="noopener" class="truehelp-btn truehelp-btn--primary"><span>Join via ISOC</span></a>
                         </div>
                     </div>
-                    @if (! empty($settings['isoc_global_url']))
-                        <p class="mt-4 mb-0">We also encourage members to join the global
-                            <a href="{{ $settings['isoc_global_url'] }}" target="_blank" rel="noopener">Internet Society</a>, also free.</p>
-                    @endif
+                    <p class="mt-4 mb-0">The button opens the Internet Society website in a new tab. Questions?
+                        <a href="{{ route('contact', ['type' => 'membership']) }}">Ask us about membership</a>.</p>
                 </div>
             </div>
         </div>

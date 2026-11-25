@@ -10,7 +10,7 @@
         <div class="meta-row">
             <span class="meta-label"><i class="fa-solid {{ $resource->type->icon() }}"></i> {{ $resource->type->label() }}</span>
             @if ($resource->is_members_only)
-                <span class="meta-label meta-label--muted"><i class="fa-solid fa-lock"></i> Members</span>
+                <span class="meta-label meta-label--muted"><i class="fa-solid fa-lock"></i> Leaders only</span>
             @endif
         </div>
         <h3 class="event-card__title"><a href="{{ $url }}">{{ $resource->title }}</a></h3>

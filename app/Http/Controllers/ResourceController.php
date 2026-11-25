@@ -66,7 +66,7 @@ class ResourceController extends Controller
 
         if ($resource->is_members_only && ! $request->user()?->canViewMemberContent()) {
             return redirect()->guest(route('login'))
-                ->with('status', 'This resource is available to approved ISOC Jamaica members. Please sign in.');
+                ->with('status', 'This resource is for ISOC Jamaica chapter leaders. Please sign in.');
         }
 
         $resource->increment('downloads');

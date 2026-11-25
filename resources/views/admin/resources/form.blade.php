@@ -59,8 +59,8 @@
                     <div class="card-header">Publishing</div>
                     <div class="card-body">
                         <x-admin.checkbox name="is_published" label="Published" :checked="$resource->is_published" />
-                        <x-admin.checkbox name="is_members_only" label="Members only" :checked="$resource->is_members_only"
-                            help="Only approved members can download it." />
+                        <x-admin.checkbox name="is_members_only" label="Leaders only" :checked="$resource->is_members_only"
+                            help="Hidden from the public. Only signed-in chapter leaders can see and download it." />
                         <x-admin.checkbox name="is_featured" label="Featured" :checked="$resource->is_featured" />
                         <div class="d-flex gap-2">
                             <button class="btn btn-primary flex-fill"><i class="fa-solid fa-floppy-disk me-1"></i> Save</button>

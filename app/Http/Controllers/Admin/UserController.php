@@ -11,6 +11,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Accounts for the chapter leaders who manage the website. There is no public
+ * sign-up, so administrators add each leader here.
+ */
 class UserController extends Controller
 {
     public function index(Request $request): View
@@ -25,8 +29,7 @@ class UserController extends Controller
                 ->orWhere('organisation', 'like', "%{$term}%")))
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($role, fn ($q) => $q->where('role', $role))
-            ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
-            ->latest()
+            ->orderBy('name')
             ->paginate(20)
             ->withQueryString();
 
@@ -34,39 +37,32 @@ class UserController extends Controller
             'users' => $users,
             'statuses' => UserStatus::cases(),
             'roles' => UserRole::cases(),
-            'pendingCount' => User::pending()->count(),
         ]);
+    }
+
+    public function create(): View
+    {
+        return $this->form((new User)->forceFill(['role' => UserRole::Editor, 'status' => UserStatus::Approved]));
+    }
+
+    public function store(UserRequest $request): RedirectResponse
+    {
+        $user = new User;
+        $this->save($user, $request->validated());
+
+        return redirect()->route('admin.users.index')->with('success', "{$user->name} can now sign in to the website admin.");
     }
 
     public function edit(User $user): View
     {
-        return view('admin.users.form', [
-            'user' => $user,
-            'roles' => UserRole::cases(),
-            'statuses' => UserStatus::cases(),
-            'stakeholderGroups' => User::STAKEHOLDER_GROUPS,
-            'parishes' => User::PARISHES,
-        ]);
+        return $this->form($user);
     }
 
     public function update(UserRequest $request, User $user): RedirectResponse
     {
-        $data = $request->validated();
-
-        $user->fill(collect($data)->except(['role', 'status'])->all());
-        $user->role = UserRole::from($data['role']);
-        $this->setStatus($user, UserStatus::from($data['status']));
-        $user->save();
+        $this->save($user, $request->validated());
 
         return redirect()->route('admin.users.index')->with('success', "{$user->name}'s account has been updated.");
-    }
-
-    public function approve(User $user): RedirectResponse
-    {
-        $this->setStatus($user, UserStatus::Approved);
-        $user->save();
-
-        return back()->with('success', "{$user->name} has been approved as a member.");
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
@@ -80,12 +76,33 @@ class UserController extends Controller
         return back()->with('success', 'Account deleted.');
     }
 
-    private function setStatus(User $user, UserStatus $status): void
+    private function form(User $user): View
     {
+        return view('admin.users.form', [
+            'user' => $user,
+            'roles' => User::LEADER_ROLES,
+            'statuses' => [UserStatus::Approved, UserStatus::Suspended],
+            'stakeholderGroups' => User::STAKEHOLDER_GROUPS,
+            'parishes' => User::PARISHES,
+        ]);
+    }
+
+    private function save(User $user, array $data): void
+    {
+        $user->fill(collect($data)->except(['role', 'status', 'password'])->all());
+
+        if (filled($data['password'] ?? null)) {
+            $user->password = $data['password'];
+        }
+
+        $user->role = UserRole::from($data['role']);
+        $status = UserStatus::from($data['status']);
+
         if ($status === UserStatus::Approved && $user->status !== UserStatus::Approved) {
             $user->approved_at = now();
         }
 
         $user->status = $status;
+        $user->save();
     }
 }

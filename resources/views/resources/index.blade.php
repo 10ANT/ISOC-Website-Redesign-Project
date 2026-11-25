@@ -29,12 +29,6 @@
                 <button type="submit" class="truehelp-btn"><span>Filter</span></button>
             </form>
 
-            @guest
-                <div class="isoc-notice isoc-notice--warning">
-                    <i class="fa-solid fa-lock"></i>
-                    <div>Resources marked <strong>Members</strong> can be downloaded by approved members. <a href="{{ route('login') }}">Sign in</a> or <a href="{{ route('membership') }}">become a member</a>.</div>
-                </div>
-            @endguest
 
             @if ($resources->isEmpty())
                 <x-empty-state icon="fa-folder-open" title="No resources found" text="Try a different search, topic or type." />

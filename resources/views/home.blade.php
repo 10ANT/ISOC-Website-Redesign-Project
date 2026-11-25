@@ -5,7 +5,9 @@
 @php
     $photo = fn (string $name) => asset("assets/images/photos/{$name}.jpg");
     $owl = fn (int $count, array $responsive) => json_encode([
-        'items' => 1, 'margin' => 30, 'loop' => $count > 3, 'smartSpeed' => 700, 'autoplay' => $count > 3,
+        // Slow enough to read each card; pauses while the visitor hovers.
+        'items' => 1, 'margin' => 30, 'loop' => $count > 3, 'smartSpeed' => 1000, 'autoplay' => $count > 3,
+        'autoplayTimeout' => 9000, 'autoplayHoverPause' => true,
         'nav' => false, 'dots' => false,
         'navText' => ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
         'responsive' => $responsive,
@@ -43,7 +45,7 @@
     {{-- Hero slider (template "main slider two") --}}
     <section class="main-slider-two">
         <div class="main-slider-two__carousel truehelp-owl__carousel truehelp-owl__carousel--basic-nav owl-carousel owl-theme"
-            data-owl-options='{"items": 1, "margin": 0, "animateIn": "fadeIn", "animateOut": "fadeOut", "loop": true, "smartSpeed": 700, "nav": true, "dots": true, "autoplay": true, "autoplayTimeout": 7000, "navText": ["Prev", "Next"]}'>
+            data-owl-options='{"items": 1, "margin": 0, "animateIn": "fadeIn", "animateOut": "fadeOut", "loop": true, "smartSpeed": 700, "nav": true, "dots": true, "autoplay": true, "autoplayTimeout": 10000, "autoplayHoverPause": true, "navText": ["Prev", "Next"]}'>
             @foreach ($slides as $slide)
                 <div class="main-slider-two__item">
                     <div class="main-slider-two__bg">

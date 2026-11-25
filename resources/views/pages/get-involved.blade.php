@@ -41,13 +41,38 @@
                             <p class="get-involved__card__border-text get-involved__card__border-text--1">The Internet is for everyone</p>
                             <p class="get-involved__card__border-text get-involved__card__border-text--2">Free membership</p>
                             <h3 class="get-involved__card__title"><a href="{{ route('membership') }}">Become a member</a></h3>
-                            <p class="get-involved__card__text">Free membership with access to the member portal, working groups and members-only resources.</p>
+                            <p class="get-involved__card__text">Free membership through the Internet Society, with working groups and early notice of events.</p>
                         </div>
                         <div class="get-involved__card__button">
                             <a href="{{ route('membership') }}" class="truehelp-btn truehelp-btn--primary"><span>Join</span></a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="support-categories section-space-bottom" id="requests">
+        <div class="container">
+            <x-sec-title tagline="Work with us" title="Send the Chapter a request" center />
+            <div class="row gutter-y-30">
+                @foreach ([
+                    ['meeting', 'fa-handshake', 'Request a meeting', 'Meet with Chapter leaders about an idea, a partnership or a question.'],
+                    ['event_request', 'fa-microphone', 'Request an event', 'Ask us to run a workshop or send a speaker to your school, group or event.'],
+                    ['support', 'fa-hand-holding-heart', 'Support the Chapter', 'Offer funding, a venue, equipment or your skills to help our work.'],
+                    ['project', 'fa-lightbulb', 'Suggest a project', 'Have an idea for an Internet project in your community? Tell us about it.'],
+                ] as [$type, $icon, $title, $text])
+                    <div class="col-xl-3 col-md-6 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="{{ $loop->index * 100 }}ms">
+                        <div class="support-categories__item">
+                            <div class="support-categories__card tone-{{ $loop->index % 3 }}">
+                                <span class="support-categories__card__icon"><i class="fa-solid {{ $icon }}"></i></span>
+                                <h3 class="support-categories__card__title">{{ $title }}</h3>
+                                <p class="support-categories__card__text">{{ $text }}</p>
+                                <a href="{{ route('contact', ['type' => $type]) }}#request-form" class="truehelp-btn"><span>Send request</span></a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>

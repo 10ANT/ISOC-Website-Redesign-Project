@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\UserStatus;
 use App\Models\ContactMessage;
 use App\Models\Event;
 use App\Models\Page;
@@ -46,7 +45,6 @@ class PublicSiteTest extends TestCase
             route('search', ['q' => 'security']),
             route('search', ['q' => 'zzzz-no-results']),
             route('login'),
-            route('register'),
             route('password.request'),
         ];
 
@@ -79,17 +77,17 @@ class PublicSiteTest extends TestCase
         $this->get(route('news.show', $post))->assertNotFound();
     }
 
-    public function test_members_only_downloads_require_an_approved_member(): void
+    public function test_leaders_only_downloads_require_a_leader(): void
     {
         $resource = Resource::where('is_members_only', true)->whereNotNull('file_path')->firstOrFail();
 
         $this->get(route('resources.download', $resource))->assertRedirect(route('login'));
 
-        $pending = User::factory()->pending()->create();
-        $this->actingAs($pending)->get(route('resources.download', $resource))->assertRedirect(route('login'));
-
         $member = User::factory()->create();
-        $this->actingAs($member)->get(route('resources.download', $resource))->assertOk()->assertDownload($resource->file_name);
+        $this->actingAs($member)->get(route('resources.download', $resource))->assertRedirect(route('login'));
+
+        $editor = User::factory()->editor()->create();
+        $this->actingAs($editor)->get(route('resources.download', $resource))->assertOk()->assertDownload($resource->file_name);
         $this->assertSame(1, $resource->fresh()->downloads);
     }
 
@@ -113,50 +111,47 @@ class PublicSiteTest extends TestCase
             ->assertSessionHasErrors(['name', 'email', 'enquiry_type', 'message']);
     }
 
-    public function test_registration_creates_a_pending_member(): void
+    public function test_request_types_are_accepted_and_preselected(): void
     {
-        $this->post(route('register'), [
-            'name' => 'New Member',
-            'email' => 'new@example.com',
-            'stakeholder_group' => 'Student',
-            'parish' => 'St. Ann',
-            'password' => 'secret-password',
-            'password_confirmation' => 'secret-password',
-            'terms' => '1',
-        ])->assertRedirect(route('portal.dashboard'));
+        foreach (['meeting', 'event_request', 'support', 'project'] as $type) {
+            $this->get(route('contact', ['type' => $type]))->assertOk()
+                ->assertSee('value="'.$type.'" selected', false);
 
-        $user = User::where('email', 'new@example.com')->firstOrFail();
-        $this->assertSame(UserStatus::Pending, $user->status);
-        $this->assertAuthenticatedAs($user);
+            $this->post(route('contact.store'), [
+                'name' => 'Jane Brown', 'email' => 'jane@example.com',
+                'enquiry_type' => $type, 'message' => 'We would like to work with the Chapter.',
+            ])->assertSessionHas('success');
+        }
 
-        $this->get(route('portal.dashboard'))->assertOk()->assertSee('awaiting approval');
-        $this->get(route('portal.announcements.index'))->assertForbidden();
+        $this->assertSame(4, ContactMessage::count());
     }
 
-    public function test_approved_member_portal(): void
+    public function test_there_is_no_public_sign_up_or_member_portal(): void
     {
-        $member = User::factory()->create();
+        $this->get('/register')->assertNotFound();
+        $this->get('/portal')->assertNotFound();
 
-        $this->actingAs($member)->get(route('portal.dashboard'))->assertOk()->assertSee('Welcome to the new member portal');
-        $this->get(route('portal.announcements.index'))->assertOk();
-        $this->get(route('portal.profile.edit'))->assertOk();
-
-        $this->put(route('portal.profile.update'), ['name' => 'Updated Name', 'email' => $member->email])
-            ->assertSessionHas('success');
-        $this->assertSame('Updated Name', $member->fresh()->name);
+        $this->get(route('membership'))->assertOk()
+            ->assertSee('Join via ISOC')
+            ->assertSee('https://www.internetsociety.org/become-a-member/', false);
     }
 
-    public function test_login_and_role_based_redirects(): void
+    public function test_only_leaders_can_sign_in(): void
     {
         $this->post(route('login'), ['email' => 'admin@isocjm.org', 'password' => 'password'])
             ->assertRedirect(route('admin.dashboard'));
         $this->post(route('logout'));
 
-        $this->post(route('login'), ['email' => 'member@isocjm.org', 'password' => 'password'])
-            ->assertRedirect(route('portal.dashboard'));
+        $this->post(route('login'), ['email' => 'editor@isocjm.org', 'password' => 'password'])
+            ->assertRedirect(route('admin.dashboard'));
         $this->post(route('logout'));
 
-        $this->post(route('login'), ['email' => 'member@isocjm.org', 'password' => 'wrong'])
+        $member = User::factory()->create();
+        $this->post(route('login'), ['email' => $member->email, 'password' => 'password'])
+            ->assertSessionHasErrors('email');
+        $this->assertGuest();
+
+        $this->post(route('login'), ['email' => 'admin@isocjm.org', 'password' => 'wrong'])
             ->assertSessionHasErrors('email');
     }
 

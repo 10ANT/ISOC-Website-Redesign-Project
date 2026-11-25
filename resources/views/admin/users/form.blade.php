@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit account')
+@section('title', $user->exists ? 'Edit account' : 'Add a leader')
 
 @section('content')
-    @php $editingSelf = $user->is(auth()->user()); @endphp
+    @php $editingSelf = $user->exists && $user->is(auth()->user()); @endphp
 
-    <form method="POST" action="{{ route('admin.users.update', $user) }}">
+    <form method="POST" action="{{ $user->exists ? route('admin.users.update', $user) : route('admin.users.store') }}">
         @csrf
-        @method('PUT')
+        @if ($user->exists) @method('PUT') @endif
 
         <div class="row g-4">
             <div class="col-lg-8">
@@ -19,7 +19,8 @@
                                 <x-admin.input name="name" label="Full name" :value="$user->name" required />
                             </div>
                             <div class="col-md-6">
-                                <x-admin.input type="email" name="email" label="Email address" :value="$user->email" required />
+                                <x-admin.input type="email" name="email" label="Email address" :value="$user->email" required
+                                    help="They sign in with this email." />
                             </div>
                             <div class="col-md-6">
                                 <x-admin.input type="tel" name="phone" label="Phone" :value="$user->phone" />
@@ -40,7 +41,7 @@
                                 <x-admin.input name="organisation" label="Organisation" :value="$user->organisation" />
                             </div>
                             <div class="col-md-6">
-                                <x-admin.input name="job_title" label="Job title" :value="$user->job_title" />
+                                <x-admin.input name="job_title" label="Chapter role or job title" :value="$user->job_title" />
                             </div>
                         </div>
                         <x-admin.select name="stakeholder_group" label="Stakeholder group" :options="array_combine($stakeholderGroups, $stakeholderGroups)"
@@ -49,18 +50,20 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Member profile</div>
+                    <div class="card-header">{{ $user->exists ? 'Reset password' : 'Password' }}</div>
                     <div class="card-body">
-                        <dl class="row mb-0">
-                            <dt class="col-sm-3">Bio</dt>
-                            <dd class="col-sm-9 message-body">{{ $user->bio ?: '—' }}</dd>
-                            <dt class="col-sm-3">Interests</dt>
-                            <dd class="col-sm-9">{{ $user->interests ?: '—' }}</dd>
-                            <dt class="col-sm-3">Registered</dt>
-                            <dd class="col-sm-9">{{ $user->created_at->format('M j, Y g:i a') }}</dd>
-                            <dt class="col-sm-3">Approved</dt>
-                            <dd class="col-sm-9 mb-0">{{ $user->approved_at?->format('M j, Y g:i a') ?? 'Not yet approved' }}</dd>
-                        </dl>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-admin.input type="password" name="password" label="Password" :required="! $user->exists" autocomplete="new-password"
+                                    :help="$user->exists ? 'Leave blank to keep their current password.' : 'At least 8 characters. Share it with them privately.'" />
+                            </div>
+                            <div class="col-md-6">
+                                <x-admin.input type="password" name="password_confirmation" label="Confirm password" :required="! $user->exists" autocomplete="new-password" />
+                            </div>
+                        </div>
+                        @if ($user->exists)
+                            <p class="small text-muted mb-0">Account added {{ $user->created_at->format('M j, Y') }}.</p>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -71,12 +74,12 @@
                     <div class="card-body">
                         <x-admin.select name="role" label="Role" :options="collect($roles)->mapWithKeys(fn ($r) => [$r->value => $r->label()])"
                             :value="$user->role" required
-                            :help="$editingSelf ? 'You cannot remove your own administrator role.' : 'Editors can manage content. Administrators can also manage users.'" />
-                        <x-admin.select name="status" label="Status" :options="collect($statuses)->mapWithKeys(fn ($s) => [$s->value => $s->label()])"
+                            :help="$editingSelf ? 'You cannot remove your own administrator role.' : 'Editors can update content. Administrators can also add and remove website users.'" />
+                        <x-admin.select name="status" label="Status" :options="collect($statuses)->mapWithKeys(fn ($s) => [$s->value => $s === \App\Enums\UserStatus::Approved ? 'Active' : $s->label()])"
                             :value="$user->status" required
-                            :help="$editingSelf ? 'You cannot suspend or un-approve your own account.' : 'Only approved members can see members-only content.'" />
+                            :help="$editingSelf ? 'You cannot suspend your own account.' : 'Suspended users cannot sign in.'" />
                         <div class="d-flex gap-2">
-                            <button class="btn btn-primary flex-fill"><i class="fa-solid fa-floppy-disk me-1"></i> Save</button>
+                            <button class="btn btn-primary flex-fill"><i class="fa-solid fa-floppy-disk me-1"></i> {{ $user->exists ? 'Save' : 'Add leader' }}</button>
                             <a href="{{ route('admin.users.index') }}" class="btn btn-light">Cancel</a>
                         </div>
                     </div>

@@ -20,6 +20,7 @@
         ['label' => 'Get Involved', 'url' => route('get-involved'), 'active' => request()->routeIs('get-involved', 'membership'), 'children' => [
             ['label' => 'Ways to get involved', 'url' => route('get-involved')],
             ['label' => 'Become a member', 'url' => route('membership')],
+            ['label' => 'Send a request', 'url' => route('get-involved').'#requests'],
             ['label' => 'Volunteer', 'url' => route('get-involved').'#volunteer'],
         ]],
         ['label' => 'Contact', 'url' => route('contact'), 'active' => request()->routeIs('contact')],
@@ -47,10 +48,7 @@
             <div class="topbar__right">
                 <ul class="topbar__pages list-unstyled">
                     @auth
-                        @can('access-admin')
-                            <li><a href="{{ route('admin.dashboard') }}">Admin</a></li>
-                        @endcan
-                        <li><a href="{{ route('portal.dashboard') }}">Member portal</a></li>
+                        <li><a href="{{ route('admin.dashboard') }}">Website admin</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -58,8 +56,7 @@
                             </form>
                         </li>
                     @else
-                        <li><a href="{{ route('login') }}">Member sign in</a></li>
-                        <li><a href="{{ route('register') }}">Join</a></li>
+                        <li><a href="{{ route('membership') }}">How to join</a></li>
                     @endauth
                 </ul>
                 @if ($phoneHref)
@@ -107,12 +104,7 @@
                 </div>
                 <div class="main-header__link">
                     @auth
-                        <a href="{{ route('portal.dashboard') }}" class="main-header__account" title="Member portal">{{ $user->initials() }}</a>
-                    @else
-                        <a href="{{ route('login') }}" class="main-header__user">
-                            <i class="icon-user" aria-hidden="true"></i>
-                            <span class="sr-only">Member sign in</span>
-                        </a>
+                        <a href="{{ route('admin.dashboard') }}" class="main-header__account" title="Website admin">{{ $user->initials() }}</a>
                     @endauth
                     <a href="#" class="main-header__search search-toggler">
                         <i class="icon-search" aria-hidden="true"></i>

@@ -27,6 +27,9 @@ class User extends Authenticatable
         'Manchester', 'Clarendon', 'St. Catherine', 'Overseas',
     ];
 
+    /** Roles an administrator can give a leader. Members join through the Internet Society, not this site. */
+    public const LEADER_ROLES = [UserRole::Admin, UserRole::Editor];
+
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'organisation', 'job_title',
         'stakeholder_group', 'parish', 'bio', 'interests',
@@ -76,10 +79,10 @@ class User extends Authenticatable
         return $this->status === UserStatus::Suspended;
     }
 
-    /** Approved members (and staff) may see members-only content. */
+    /** Only active leaders may see "leaders only" resources (stored as is_members_only). */
     public function canViewMemberContent(): bool
     {
-        return $this->isApproved() || $this->isStaff();
+        return $this->isStaff() && $this->isApproved();
     }
 
     public function initials(): string

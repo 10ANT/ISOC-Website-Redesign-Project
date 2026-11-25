@@ -53,7 +53,7 @@
                                     <span class="badge text-bg-secondary">Hidden</span>
                                 @endif
                                 @if ($resource->is_members_only)
-                                    <span class="badge text-bg-info"><i class="fa-solid fa-lock me-1"></i>Members only</span>
+                                    <span class="badge text-bg-info"><i class="fa-solid fa-lock me-1"></i>Leaders only</span>
                                 @endif
                                 @if ($resource->is_featured)
                                     <span class="badge text-bg-warning"><i class="fa-solid fa-star me-1"></i>Featured</span>

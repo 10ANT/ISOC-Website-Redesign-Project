@@ -13,6 +13,7 @@
                         <ul class="footer-widget__links footer-widget__links--about">
                             <li><a href="{{ route('privacy') }}">Privacy policy</a></li>
                             <li><a href="{{ route('search') }}">Search</a></li>
+                            <li><a href="{{ route('login') }}">Leader sign in</a></li>
                         </ul>
                         <a href="{{ route('membership') }}" class="footer-widget__btn truehelp-btn truehelp-btn--primary">
                             <span>Become a member</span>

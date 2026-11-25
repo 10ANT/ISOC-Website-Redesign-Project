@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
-use App\Models\Announcement;
 use App\Models\ContactMessage;
 use App\Models\Event;
 use App\Models\Media;
@@ -62,8 +62,6 @@ class AdminSmokeTest extends TestCase
             route('admin.programmes.create'),
             route('admin.pages.index'),
             route('admin.pages.create'),
-            route('admin.announcements.index'),
-            route('admin.announcements.create'),
             route('admin.categories.index'),
             route('admin.people.index'),
             route('admin.people.index', ['group' => 'board']),
@@ -74,7 +72,9 @@ class AdminSmokeTest extends TestCase
             route('admin.media.index'),
             route('admin.settings.edit'),
             route('admin.users.index'),
-            route('admin.users.index', ['status' => 'pending', 'role' => 'member', 'q' => 'a']),
+            route('admin.users.index', ['status' => 'approved', 'role' => 'editor', 'q' => 'a']),
+            route('admin.users.create'),
+            route('admin.profile.edit'),
         ];
 
         foreach ($urls as $url) {
@@ -84,7 +84,7 @@ class AdminSmokeTest extends TestCase
 
     public function test_admin_edit_pages_render(): void
     {
-        $pending = User::where('status', UserStatus::Pending)->firstOrFail();
+        $editor = User::where('email', 'editor@isocjm.org')->firstOrFail();
 
         $urls = [
             route('admin.posts.edit', Post::firstOrFail()),
@@ -93,10 +93,9 @@ class AdminSmokeTest extends TestCase
             route('admin.programmes.edit', Programme::firstOrFail()),
             route('admin.pages.edit', Page::where('slug', 'privacy-policy')->first() ?? Page::firstOrFail()),
             route('admin.pages.edit', Page::firstOrFail()),
-            route('admin.announcements.edit', Announcement::firstOrFail()),
             route('admin.people.edit', Person::firstOrFail()),
             route('admin.users.edit', $this->admin),
-            route('admin.users.edit', $pending),
+            route('admin.users.edit', $editor),
             route('admin.messages.show', ContactMessage::firstOrFail()),
         ];
 
@@ -105,15 +104,41 @@ class AdminSmokeTest extends TestCase
         }
     }
 
-    public function test_dashboard_shows_pending_members_with_approve_action(): void
+    public function test_admin_can_add_a_leader_who_can_then_sign_in(): void
     {
-        $pending = User::where('status', UserStatus::Pending)->firstOrFail();
+        $this->actingAs($this->admin)->post(route('admin.users.store'), [
+            'name' => 'New Leader',
+            'email' => 'leader@example.com',
+            'role' => 'editor',
+            'status' => 'approved',
+            'password' => 'secret-password',
+            'password_confirmation' => 'secret-password',
+        ])->assertRedirect(route('admin.users.index'));
 
+        $leader = User::where('email', 'leader@example.com')->firstOrFail();
+        $this->assertSame(UserRole::Editor, $leader->role);
+        $this->assertSame(UserStatus::Approved, $leader->status);
+
+        $this->post(route('logout'));
+        $this->post(route('login'), ['email' => 'leader@example.com', 'password' => 'secret-password'])
+            ->assertRedirect(route('admin.dashboard'));
+    }
+
+    public function test_admin_cannot_create_member_accounts(): void
+    {
+        $this->actingAs($this->admin)->post(route('admin.users.store'), [
+            'name' => 'Member', 'email' => 'member@example.com', 'role' => 'member', 'status' => 'approved',
+            'password' => 'secret-password', 'password_confirmation' => 'secret-password',
+        ])->assertSessionHasErrors('role');
+    }
+
+    public function test_dashboard_shows_unread_requests(): void
+    {
         $this->actingAs($this->admin)
             ->get(route('admin.dashboard'))
             ->assertOk()
-            ->assertSee($pending->name)
-            ->assertSee(route('admin.users.approve', $pending), false);
+            ->assertSee('Unread messages')
+            ->assertSee('Joining the chapter');
     }
 
     public function test_editor_dashboard_hides_user_management(): void

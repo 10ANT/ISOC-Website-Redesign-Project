@@ -19,9 +19,9 @@ class PostSeeder extends Seeder
 
         $posts = [
             [
-                'title' => 'ISOC Jamaica launches its new website and member portal', 'image' => 'assets/images/photos/news-1.jpg',
-                'excerpt' => 'Our new website brings events, news, resources and a members-only portal together in one place.',
-                'body' => "We're pleased to launch the new ISOC Jamaica website, a single home for everything the Chapter does.\n\n## What's new\n\n- **Events** are now listed automatically, with registration links and a full archive.\n- **News** like this post keeps you up to date between events.\n- **Resources** brings our reports, guides and presentations into one searchable library.\n- **Member portal:** members can now sign in, update their profile and see members-only announcements and resources.\n\nIf you were already part of the Chapter, [create your account](/register) and we'll approve it as quickly as we can.",
+                'title' => 'ISOC Jamaica launches its new website', 'image' => 'assets/images/photos/news-1.jpg',
+                'excerpt' => 'Our new website brings events, news and resources together in one place.',
+                'body' => "We're pleased to launch the new ISOC Jamaica website, a single home for everything the Chapter does.\n\n## What's new\n\n- **Events** are now listed automatically, with registration links and a full archive.\n- **News** like this post keeps you up to date between events.\n- **Resources** brings our reports, guides and presentations into one searchable library.\n- **Requests:** you can now ask us for a meeting, an event or a speaker, offer support, or suggest a project from the [Get Involved](/get-involved#requests) page.\n\nWant to join the Chapter? [See how to become a member](/membership) through the Internet Society.",
                 'category_id' => $category('Chapter News'), 'tags' => ['website', 'members'], 'days_ago' => 2,
             ],
             [

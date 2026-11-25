@@ -15,12 +15,13 @@ The admin dashboard (`/admin`) is **not a purchased or downloaded admin template
 
 ## How it's structured
 
-- **Layout** (`resources/views/layouts/admin.blade.php`): a fixed dark sidebar grouped into Overview, Content, Members and Settings; a sticky top bar with the page title and the user menu; and a light grey content area. On phones the sidebar slides in from a menu button. The layout also sets up the Markdown editor, the "Are you sure?" prompt before deleting, and the "copy link" buttons.
+- **Layout** (`resources/views/layouts/admin.blade.php`): a fixed dark sidebar grouped into Overview, Content, People and Settings; a sticky top bar with the page title and the user menu; and a light grey content area. On phones the sidebar slides in from a menu button. The layout also sets up the Markdown editor, the "Are you sure?" prompt before deleting, and the "copy link" buttons.
 - **Reusable form components** (`resources/views/components/admin/`): `input`, `textarea`, `select`, `checkbox` (switch style), `image` (upload with preview and remove) and `delete-button`. Every admin form is built from these, which is why all the forms look and behave the same.
 - **Consistent page pattern:** each section (News, Events, Resources and so on) has
   - a **list page**: a search and filter row, an action button on the right, and a table in a card with view/edit/delete buttons;
   - a **form page**: the main content on the left (8 columns) and a "Publishing" card on the right with Save/Cancel, then a "Details" card.
-- **Dashboard home** (`resources/views/admin/dashboard.blade.php`): quick-action buttons, four stat cards, pending membership approvals, latest messages, upcoming events and draft news.
+- **Dashboard home** (`resources/views/admin/dashboard.blade.php`): quick-action buttons, four stat cards, latest messages and requests, upcoming events and draft news.
+- **Website Users and My profile:** administrators add each leader (Administrator or Editor) with a starting password; every leader can change their own details and password under **My profile**. There is no public sign-up: membership is handled by the Internet Society.
 
 ## How it came about
 

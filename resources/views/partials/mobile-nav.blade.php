@@ -13,12 +13,7 @@
             @auth
                 <li>
                     <span class="mobile-nav__contact__icon"><i class="fa fa-user"></i></span>
-                    <a href="{{ route('portal.dashboard') }}">Member portal</a>
-                </li>
-            @else
-                <li>
-                    <span class="mobile-nav__contact__icon"><i class="fa fa-right-to-bracket"></i></span>
-                    <a href="{{ route('login') }}">Member sign in</a>
+                    <a href="{{ route('admin.dashboard') }}">Website admin</a>
                 </li>
             @endauth
             @if (! empty($settings['contact_email']))

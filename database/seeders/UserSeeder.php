@@ -8,7 +8,8 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Creates starter accounts. Change these passwords immediately outside local development.
+ * Creates starter leader accounts. Change these passwords immediately outside local development.
+ * Members join through the Internet Society, so no member accounts are created here.
  */
 class UserSeeder extends Seeder
 {
@@ -19,8 +20,6 @@ class UserSeeder extends Seeder
         $accounts = [
             ['name' => 'Site Administrator', 'email' => 'admin@isocjm.org', 'role' => UserRole::Admin, 'status' => UserStatus::Approved],
             ['name' => 'Content Editor', 'email' => 'editor@isocjm.org', 'role' => UserRole::Editor, 'status' => UserStatus::Approved],
-            ['name' => 'Demo Member', 'email' => 'member@isocjm.org', 'role' => UserRole::Member, 'status' => UserStatus::Approved],
-            ['name' => 'Pending Applicant', 'email' => 'pending@isocjm.org', 'role' => UserRole::Member, 'status' => UserStatus::Pending],
         ];
 
         foreach ($accounts as $account) {
@@ -35,11 +34,6 @@ class UserSeeder extends Seeder
                 'stakeholder_group' => 'Technical Community',
                 'parish' => 'Kingston',
             ])->save();
-        }
-
-        if (app()->environment('local')) {
-            User::factory()->count(12)->create();
-            User::factory()->count(3)->pending()->create();
         }
     }
 }

@@ -9,6 +9,10 @@ class ContactMessage extends Model
 {
     public const ENQUIRY_TYPES = [
         'general' => 'General enquiry',
+        'meeting' => 'Request a meeting',
+        'event_request' => 'Request an event or speaker',
+        'support' => 'Support the Chapter',
+        'project' => 'Suggest a project',
         'membership' => 'Membership',
         'events' => 'Events & training',
         'programmes' => 'Programmes & partnerships',

@@ -32,14 +32,13 @@
             ['admin.categories.index', 'Categories', 'fa-tags', 'admin.categories.*'],
             ['admin.media.index', 'Media Library', 'fa-images', 'admin.media.*'],
         ],
-        'Members' => [
-            ['admin.announcements.index', 'Announcements', 'fa-bullhorn', 'admin.announcements.*'],
-            ['admin.messages.index', 'Messages', 'fa-inbox', 'admin.messages.*'],
+        'People' => [
+            ['admin.messages.index', 'Messages & Requests', 'fa-inbox', 'admin.messages.*'],
         ],
     ];
 
     if (auth()->user()->can('manage-users')) {
-        $nav['Members'][] = ['admin.users.index', 'Members & Users', 'fa-users', 'admin.users.*'];
+        $nav['People'][] = ['admin.users.index', 'Website Users', 'fa-users', 'admin.users.*'];
     }
 
     $nav['Settings'] = [['admin.settings.edit', 'Site Settings', 'fa-sliders', 'admin.settings.*']];
@@ -80,7 +79,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><span class="dropdown-item-text small text-muted">{{ auth()->user()->role->label() }}</span></li>
-                    <li><a class="dropdown-item" href="{{ route('portal.profile.edit') }}"><i class="fa-solid fa-user fa-fw me-1"></i> My profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}"><i class="fa-solid fa-user fa-fw me-1"></i> My profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">

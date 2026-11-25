@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Member sign in')
+@section('title', 'Leader sign in')
 
 @section('content')
-    <x-page-header title="Member Sign In" text="Sign in to the ISOC Jamaica member portal." :crumbs="['Sign in' => null]" />
+    <x-page-header title="Leader Sign In" text="For chapter leaders who update this website." :crumbs="['Sign in' => null]" />
 
     <section class="section-space">
         <div class="container">
             <div class="auth-wrap">
                 <div class="isoc-panel">
                     <h2 class="isoc-panel__title">Welcome back</h2>
-                    <p class="isoc-panel__lead">Not a member yet? <a href="{{ route('register') }}">Apply for membership</a>.</p>
+                    <p class="isoc-panel__lead">Looking to join the chapter? <a href="{{ route('membership') }}">See how to become a member</a>.</p>
 
                     <form method="POST" action="{{ route('login') }}" class="form-one">
                         @csrf

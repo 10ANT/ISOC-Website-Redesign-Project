@@ -1,15 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Members & Users')
+@section('title', 'Website Users')
 
 @section('content')
-    @if ($pendingCount > 0 && request('status') !== 'pending')
-        <div class="alert alert-warning d-flex flex-wrap justify-content-between align-items-center gap-2" role="status">
-            <span><i class="fa-solid fa-user-clock me-1"></i> {{ $pendingCount }} membership {{ Str::plural('application', $pendingCount) }} waiting for review.</span>
-            <a href="{{ route('admin.users.index', ['status' => 'pending']) }}" class="btn btn-sm btn-warning">Review applications</a>
-        </div>
-    @endif
-
     <div class="page-actions">
         <form method="GET">
             <input type="search" name="q" value="{{ request('q') }}" class="form-control" placeholder="Name, email or organisation…" aria-label="Search users">
@@ -27,6 +20,7 @@
             </select>
             <button class="btn btn-outline-secondary">Filter</button>
         </form>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary"><i class="fa-solid fa-user-plus me-1"></i> Add a leader</a>
     </div>
 
     <div class="card">
@@ -39,7 +33,7 @@
                         <th>Stakeholder group</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Joined</th>
+                        <th>Added</th>
                         <th class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -56,13 +50,6 @@
                             <td><span class="badge text-bg-{{ $user->status->badge() }}">{{ $user->status->label() }}</span></td>
                             <td class="small text-muted text-nowrap">{{ $user->created_at->format('M j, Y') }}</td>
                             <td class="text-end text-nowrap">
-                                @if ($user->status === \App\Enums\UserStatus::Pending)
-                                    <form method="POST" action="{{ route('admin.users.approve', $user) }}" class="d-inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button class="btn btn-sm btn-success" title="Approve"><i class="fa-solid fa-check"></i><span class="visually-hidden">Approve</span></button>
-                                    </form>
-                                @endif
                                 <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="fa-solid fa-pen"></i><span class="visually-hidden">Edit</span></a>
                                 @unless ($user->is(auth()->user()))
                                     <x-admin.delete-button :action="route('admin.users.destroy', $user)" confirm="Delete this account? This cannot be undone." />

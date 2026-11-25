@@ -3,13 +3,11 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\Portal;
 use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SearchController;
@@ -53,12 +51,12 @@ Route::get('/search', SearchController::class)->name('search');
 |--------------------------------------------------------------------------
 | Authentication
 |--------------------------------------------------------------------------
+| Only chapter leaders with website access sign in. Membership itself is
+| handled by the Internet Society, so there is no public sign-up.
 */
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('login');
     Route::post('/login', [LoginController::class, 'store'])->middleware('throttle:6,1');
-    Route::get('/register', [RegisterController::class, 'create'])->name('register');
-    Route::post('/register', [RegisterController::class, 'store'])->middleware('throttle:6,1');
     Route::get('/forgot-password', [PasswordResetController::class, 'request'])->name('password.request');
     Route::post('/forgot-password', [PasswordResetController::class, 'email'])->middleware('throttle:6,1')->name('password.email');
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])->name('password.reset');
@@ -69,32 +67,21 @@ Route::post('/logout', [LoginController::class, 'destroy'])->middleware('auth')-
 
 /*
 |--------------------------------------------------------------------------
-| Member portal
-|--------------------------------------------------------------------------
-*/
-Route::middleware('auth')->prefix('portal')->name('portal.')->group(function () {
-    Route::get('/', Portal\DashboardController::class)->name('dashboard');
-    Route::get('/announcements', [Portal\AnnouncementController::class, 'index'])->name('announcements.index');
-    Route::get('/announcements/{announcement}', [Portal\AnnouncementController::class, 'show'])->name('announcements.show');
-    Route::get('/profile', [Portal\ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [Portal\ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/password', [Portal\ProfileController::class, 'password'])->name('password.change');
-});
-
-/*
-|--------------------------------------------------------------------------
 | Administration dashboard
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Admin\DashboardController::class)->name('dashboard');
 
+    Route::get('profile', [Admin\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [Admin\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('password', [Admin\ProfileController::class, 'password'])->name('password.change');
+
     Route::resource('posts', Admin\PostController::class)->except('show');
     Route::resource('events', Admin\EventController::class)->except('show');
     Route::resource('resources', Admin\ResourceController::class)->except('show');
     Route::resource('programmes', Admin\ProgrammeController::class)->except('show');
     Route::resource('pages', Admin\PageController::class)->except('show');
-    Route::resource('announcements', Admin\AnnouncementController::class)->except('show');
     Route::resource('categories', Admin\CategoryController::class)->except(['show', 'create', 'edit']);
     Route::resource('people', Admin\PersonController::class)->except('show');
 
@@ -105,7 +92,6 @@ Route::middleware(['auth', 'can:access-admin'])->prefix('admin')->name('admin.')
     Route::put('settings', [Admin\SettingController::class, 'update'])->name('settings.update');
 
     Route::middleware('can:manage-users')->group(function () {
-        Route::resource('users', Admin\UserController::class)->only(['index', 'edit', 'update', 'destroy']);
-        Route::patch('users/{user}/approve', [Admin\UserController::class, 'approve'])->name('users.approve');
+        Route::resource('users', Admin\UserController::class)->except('show');
     });
 });

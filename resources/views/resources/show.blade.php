@@ -20,7 +20,7 @@
                                 <a href="{{ route('resources.index', ['topic' => $resource->category->slug]) }}" class="meta-label">{{ $resource->category->name }}</a>
                             @endif
                             @if ($resource->is_members_only)
-                                <span class="meta-label meta-label--muted"><i class="fa-solid fa-lock"></i> Members only</span>
+                                <span class="meta-label meta-label--muted"><i class="fa-solid fa-lock"></i> Leaders only</span>
                             @endif
                         </div>
                         <h2 class="event-details__title">{{ $resource->title }}</h2>
@@ -65,10 +65,7 @@
                         @else
                             <div class="isoc-notice isoc-notice--warning mt-4 mb-0">
                                 <i class="fa-solid fa-lock"></i>
-                                <div>
-                                    Available to approved members.
-                                    @auth Your membership is awaiting approval. @else <a href="{{ route('login') }}">Sign in</a> or <a href="{{ route('membership') }}">join</a>. @endauth
-                                </div>
+                                <div>This resource is for chapter leaders. <a href="{{ route('contact') }}">Contact us</a> if you need a copy.</div>
                             </div>
                         @endif
                     </div>

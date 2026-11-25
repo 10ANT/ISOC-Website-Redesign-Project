@@ -37,11 +37,18 @@ class LoginController extends Controller
             ]);
         }
 
+        // Sign-in is only for leaders who manage the website; membership lives with the Internet Society.
+        if ($request->user()->cannot('access-admin')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'This sign-in is only for chapter leaders who manage the website. To become a member, join through the Internet Society.',
+            ]);
+        }
+
         $request->session()->regenerate();
 
-        $default = $request->user()->isStaff() ? route('admin.dashboard') : route('portal.dashboard');
-
-        return redirect()->intended($default);
+        return redirect()->intended(route('admin.dashboard'));
     }
 
     public function destroy(Request $request): RedirectResponse

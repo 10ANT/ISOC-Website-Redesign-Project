@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('markdown', fn ($expression) => "<?php echo \\App\\Providers\\AppServiceProvider::markdown({$expression}); ?>");
 
         // Site settings and the programme menu are used across public views; load once per request.
-        View::composer(['layouts.app', 'partials.*', 'home', 'pages.*', 'portal.*'], function ($view) {
+        View::composer(['layouts.app', 'partials.*', 'home', 'pages.*'], function ($view) {
             $view->with(once(fn () => [
                 'settings' => Setting::allCached(),
                 'navProgrammes' => Programme::ordered()->get(['id', 'title', 'slug']),

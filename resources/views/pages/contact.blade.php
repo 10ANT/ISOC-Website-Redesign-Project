@@ -6,7 +6,7 @@
 @php $phoneHref = preg_replace('/[^0-9+]/', '', $settings['contact_phone'] ?? ''); @endphp
 
 @section('content')
-    <x-page-header title="Contact Us" text="Questions about membership, events, programmes or partnerships? We'd love to hear from you."
+    <x-page-header title="Contact Us" text="Request a meeting or an event, offer support, suggest a project, or just ask a question. We'd love to hear from you."
         :crumbs="['Contact' => null]" :image="asset('assets/images/photos/hero-meeting.jpg')" />
 
     <section class="contact section-space">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-duration="1500ms" data-wow-delay="100ms">
-                    <div class="contact__form">
+                    <div class="contact__form" id="request-form">
                         <h3 class="contact__form__title">Get In Touch With Us</h3>
                         @include('partials.enquiry-form')
                     </div>
