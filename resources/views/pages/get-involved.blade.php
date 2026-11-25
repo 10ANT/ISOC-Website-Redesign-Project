@@ -52,7 +52,7 @@
         </div>
     </section>
 
-    <section class="support-categories section-space-bottom" id="requests">
+    <section class="support-categories support-categories--requests section-space-bottom" id="requests">
         <div class="container">
             <x-sec-title tagline="Work with us" title="Send the Chapter a request" center />
             <div class="row gutter-y-30">

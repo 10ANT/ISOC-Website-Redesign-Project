@@ -110,7 +110,7 @@ body.page-dark .events-two::before { background-color: #0f1b2a; }
 .support-categories__card__icon { display: inline-flex; font-size: 34px; color: var(--isoc-blue); margin-bottom: 18px; }
 body.page-dark .support-categories__card__icon { color: var(--isoc-yellow); }
 /* Request cards on Get Involved: the template's dark button text is unreadable on our blue button */
-.support-categories__card .truehelp-btn { color: var(--truehelp-white, #fff); margin-top: 8px; }
+.support-categories--requests .support-categories__card .truehelp-btn { color: var(--truehelp-white, #fff); margin-top: 8px; }
 
 /* Volunteer (people) card image ratio */
 .volunteer-card__image img { width: 100%; aspect-ratio: 370 / 456; object-fit: cover; }
